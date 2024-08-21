@@ -1,9 +1,18 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BaseService {
+export abstract class BaseService {
 
-  constructor() { }
+  protected abstract getToken(): string | null;
+
+  protected getAuthHeaders(): HttpHeaders {
+    const token = this.getToken(); 
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token ? Bearer ${token} : ''
+    });
+  }
 }
